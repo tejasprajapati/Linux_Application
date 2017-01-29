@@ -118,4 +118,4 @@ Press e or ctrl+c :
 		Exit the application
 
 
-
+NOTE: The final application is having a problem in unexporting few of the PWM when selected all. Need validation and updation accordingly.
