@@ -5,10 +5,10 @@ To compile this application we must use the gcc which is available in the Embedd
 
 To use the application with the available SPI devices,
 
-$ ./<APP_NAME> -D /dev/spiX.x , where X is bus number and x is chip select number
+$ ./APP_NAME -D /dev/spiX.x , where X is bus number and x is chip select number
 
 To test this application in loopback mode if driver permits,
 
-$ ./<APP_NAME> -l -D /dev/spiX.x
+$ ./APP_NAME -l -D /dev/spiX.x
 
 NOTE: USER MUST USE spidev_test.c ONLY FOR REFERENCE
