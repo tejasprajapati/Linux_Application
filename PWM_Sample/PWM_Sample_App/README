@@ -1,0 +1,121 @@
+**************************************************************
+README for PWM
+**************************************************************
+There are two ways of using PWM.
+1.	Using sysfs entries.
+2.	Using the provided sample application
+
+**************************************************************
+Using sysfs entries
+**************************************************************
+
+1.	Chnage to the sysfs entries for pwm
+
+	# cd /sys/class/pwm/pwmchip0/
+
+2.	Export pwm0 for use and change the current directory to the pwm0
+	# echo 0 > export
+	# cd pwm0
+
+3.	Set pwm period and duty_cycle as needed
+	# echo 400000 > period
+	# echo 320000 > duty_cycle
+
+4.	Enable pwm with above settings
+	# echo 1 > enable
+
+
+
+**************************************************************
+Using the provided sample application
+**************************************************************
+
+NOTE: First of all you need to decide what you want to change duty_cycle,period only one time or multiple time
+
+1.	change duty_cycle,period only one time
+	<Executable file> <pwmchipx> period duty_cycle
+	Example : ./pwm pwmchip0 400000 320000
+			: ./pwm pwmchip1 400000 320000
+				   
+			output : Export successfully
+	-> If you want to close application then press ctrl + c for gracefull termination.
+
+2.	change time duty_cycle, period multiple times
+	<Executable file>
+	Examle : ./pwm
+			output : start basic pwm application 
+					Please select pwm from below 
+					pwmchip0
+					pwmchip1
+					pwmchip2
+					pwmchip3
+					all
+
+			select: pwmchip0/pwmchip1/pwmchip2/pwmchip3/all
+		
+
+	-> suppose we selected pwmchip0
+
+			output :	selected pwm is pwmchip0 
+						export pwmchip0 successfully
+				  
+					 	Please Select PWM for changing some duty cycle period etc...
+			select :	pwmchip0
+
+		 	output :	for changes selected pwm : pwmchip0
+						For changing dutycycle press : D
+						For changing period press : P
+						For Enable PWM  : E
+						For disable PWM : d
+						For unexport pwm : u
+						For exit this application press : e
+			select : 	P
+
+		  	output :	you have press P
+						Please give the period
+
+		  	select : 	< Period >
+
+		  	output :	pwm period is changed successfully 
+						for changes selected pwm : pwmchip0
+						For changing dutycycle press : D
+						For changing period press : P
+						For Enable PWM  : E
+						For disable PWM : d
+						For unexport pwm : u
+						For exit this application press : e
+
+			select :	D
+
+		  	output :	you have press D
+						please give the duty_cycle
+
+		  	select :	<duty_cycle>
+
+		  	output :	pwm duty_cycle is change successfully 
+						for changes selected pwm : pwmchip0
+						For changing dutycycle press : D
+						For changing period press : P
+						For Enable PWM  : E
+						For disable PWM : d
+						For unexport pwm : u
+						For exit this application press : e
+
+			select :	E
+
+		  	output :	you have press E
+				   		Enable pwm is successfully 
+
+NOTE : PLEASE CHECK WAVEFORM ON CRO
+
+If you want to change duty_cycle, period, Enable, disable, unexport then select from above options
+
+If you want to exit application then press e or press ctrl + c
+
+Press e or ctrl+c : 
+		Disable pwm successfully 
+		unexport successfully
+		Exit the application
+
+
+
