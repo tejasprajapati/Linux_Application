@@ -2,7 +2,7 @@
  *
  * Raspberry Pi GPIO example using sysfs interface.
  *
- * This file blinks GPIO 4 (P1-07) while reading GPIO 24 (P1_18).
+ * This file blinks GPIO 4 (P1_07) while reading GPIO 24 (P1_18).
  */
  
 #include <sys/stat.h>
@@ -20,42 +20,20 @@
  
 #define PIN 		 		24													/*	P1-18 */
 #define POUT 				4  													/*	P1-07 */
-
 #define DIRECTION_MAX 		35
 #define VALUE_MAX 			30
- 
-char gpio_count = 20;
-int GPIO_config[][] = {    {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-			   {pin_no_x,dir_x},
-	}
+
+
 static int GPIOExport(int pin)
 {
 	char buffer[3];
 	ssize_t bytes_written;
 	int fd;
  
-	fd = open("/sys/class/gpio/export", O_WRONLY);
+	fd = open("/sys/class/gpio/export", O_WRONLY, S_IRWXU);
 	if (fd == -1) 
 	{
-		perror("Open failed");
+		printf("Open failed Line number :%d ", __LINE__);
 		return 1;
 	}
  
@@ -71,10 +49,10 @@ static int GPIOUnexport(int pin)
 	ssize_t bytes_written;
 	int fd;
  
-	fd = open("/sys/class/gpio/unexport", O_WRONLY);
+	fd = open("/sys/class/gpio/unexport", O_WRONLY, S_IRWXU);
 	if (fd == -1)
 	{
-		perror("Open failed");
+		printf("Open failed Line number :%d ", __LINE__);
 		return 1;
 	} 
 
@@ -86,21 +64,20 @@ static int GPIOUnexport(int pin)
  
 static int GPIODirection(int pin, int dir)
 {
-	static const char s_directions_str[]  = "in\0out";
-
 	char path[DIRECTION_MAX];
 	int fd;
  
 	snprintf(path, DIRECTION_MAX, "/sys/class/gpio/gpio%d/direction", pin);
-	fd = open(path, O_WRONLY);
+
+	fd = open(path, O_WRONLY, S_IRWXU);
+	system(" ls -lhrt /sys/class/gpio/gpio4/direction");
 	if (fd == -1)
 	{
-		perror("Open failed");
-		return 1;
+		perror("error");
+		return -1;
 	}
- 
-	//if (-1 == write(fd, &s_directions_str[IN == dir ? 0 : 3], IN == dir ? 2 : 3)) 
-	if (write(fd, IN == dir ? "in" : "out", IN == dir ? 2 : 3) == -1) 
+
+	if (write(fd, dir == IN ? "in" : "out", dir == IN ? 2 : 3) == -1)
 	{
 		perror("Failed to set direction");
 		return 1;
@@ -117,7 +94,7 @@ static int GPIORead(int pin)
 	int fd;
  
 	snprintf(path, VALUE_MAX, "/sys/class/gpio/gpio%d/value", pin);
-	fd = open(path, O_RDONLY);
+	fd = open(path, O_RDONLY, S_IRWXU);
 	if(fd == -1)
 	{
 		perror("Failed to open gpio value for reading!");
@@ -137,19 +114,17 @@ static int GPIORead(int pin)
  
 static int GPIOWrite(int pin, int value)
 {
-	static const char s_values_str[] = "01";
- 
 	char path[VALUE_MAX];
 	int fd;
  
 	snprintf(path, VALUE_MAX, "/sys/class/gpio/gpio%d/value", pin);
-	fd = open(path, O_WRONLY);
+	fd = open(path, O_WRONLY, S_IRWXU);
 	if (fd == -1) {
 		perror("Failed to open gpio value for writing!");
 		return 1;
 	}
  
-	if (write(fd, LOW == value ? "0" : "1", 1) == -1)
+	if (write(fd, value == 0 ? "0" : "1", 1) == -1)
 	{
 		perror("Failed to write value!");
 		return 1;
@@ -158,38 +133,23 @@ static int GPIOWrite(int pin, int value)
 	close(fd);
 	return 0;
 }
- 
-int GPIO_init(void)
-{
-	for(i=0;i<gpio_count;i++)
-	{
-		GPIOExport(GPIO_config[i][0]);
-		GPIODirection(GPIO_config[i][1]);
-	}
-	return 0;
-}
-
 
 int main(void)
 {
 	int i;
-	if (GPIOExport(POUT) || GPIOExport(PIN))									/*	Enable GPIO pins*/
-		return 1;
+	GPIOExport(POUT);															/*	Enable GPIO pins*/
+	sleep(1);
 
-	if (GPIODirection(POUT, OUT) || GPIODirection(PIN, IN))						/*	Set GPIO directions*/
-		return 2;
+	GPIODirection(POUT, OUT);													/*	Set GPIO directions*/
  
 	for(i = 0; i < 10; i++)
 	{
-		if (GPIOWrite(POUT, i % 2))										/*	Write GPIO value*/
-			return 1;
+		printf("Writing gpio\n");
+		if (GPIOWrite(POUT, i % 2))												/*	Write GPIO value*/
 		printf("I'm reading %d in GPIO %d\n", GPIORead(PIN), PIN);				/*	Read GPIO value*/
- 
 		usleep(500 * 1000);
 	}
  
-	if (GPIOUnexport(POUT) || GPIOUnexport(PIN))								/*	Disable GPIO pins*/
-		return 1;
- 
+	GPIOUnexport(POUT);															/*	Disable GPIO pins*/
 	return 0;
 }
