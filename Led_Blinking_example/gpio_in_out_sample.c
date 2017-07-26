@@ -132,22 +132,22 @@ int GPIOWrite(int pin, int value)
 	return 0;
 }
 
-int main(void)
+/*int main(void)
 {
 	int i;
-	GPIOExport(POUT);															/*	Enable GPIO pins*/
+	GPIOExport(POUT);																Enable GPIO pins
 	sleep(1);
 
-	GPIODirection(POUT, OUT);													/*	Set GPIO directions*/
+	GPIODirection(POUT, OUT);														Set GPIO directions
  
 	for(i = 0; i < 10; i++)
 	{
 		printf("Writing gpio\n");
-		if (GPIOWrite(POUT, i % 2))												/*	Write GPIO value*/
-		printf("I'm reading %d in GPIO %d\n", GPIORead(PIN), PIN);				/*	Read GPIO value*/
+		if (GPIOWrite(POUT, i % 2))													Write GPIO value
+		printf("I'm reading %d in GPIO %d\n", GPIORead(PIN), PIN);					Read GPIO value
 		usleep(500 * 1000);
 	}
  
-	GPIOUnexport(POUT);															/*	Disable GPIO pins*/
+	GPIOUnexport(POUT);																Disable GPIO pins
 	return 0;
-}
+}*/

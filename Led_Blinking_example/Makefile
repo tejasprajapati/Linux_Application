@@ -16,7 +16,7 @@ INCDIR = $(PREFIX)/include/$(TARGETDIR)/
 all: $(TARGET) install
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(FLAGS) $(CFLAGS) -o $(TARGET) $(OBJECTS)
+	$(CC) $(FLAGS) $(CFLAGS) $(LDFLAGS) -o $(TARGET) $(OBJECTS)
 	rm -rf *.o
 
 install:
