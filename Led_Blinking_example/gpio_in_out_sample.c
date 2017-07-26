@@ -11,20 +11,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "gpio.h"
  
 #define IN  				0
 #define OUT 				1
- 
-#define LOW  				0
-#define HIGH 				1
- 
+
 #define PIN 		 		24													/*	P1-18 */
 #define POUT 				4  													/*	P1-07 */
 #define DIRECTION_MAX 		35
 #define VALUE_MAX 			30
 
 
-static int GPIOExport(int pin)
+int GPIOExport(int pin)
 {
 	char buffer[3];
 	ssize_t bytes_written;
@@ -43,7 +41,7 @@ static int GPIOExport(int pin)
 	return 0;
 }
  
-static int GPIOUnexport(int pin)
+int GPIOUnexport(int pin)
 {
 	char buffer[3];
 	ssize_t bytes_written;
@@ -62,7 +60,7 @@ static int GPIOUnexport(int pin)
 	return 0;
 }
  
-static int GPIODirection(int pin, int dir)
+int GPIODirection(int pin, int dir)
 {
 	char path[DIRECTION_MAX];
 	int fd;
@@ -87,7 +85,7 @@ static int GPIODirection(int pin, int dir)
 	return 0;
 }
  
-static int GPIORead(int pin)
+int GPIORead(int pin)
 {
 	char path[VALUE_MAX];
 	char value_str[3];
@@ -112,7 +110,7 @@ static int GPIORead(int pin)
 	return atoi(value_str);
 }
  
-static int GPIOWrite(int pin, int value)
+int GPIOWrite(int pin, int value)
 {
 	char path[VALUE_MAX];
 	int fd;
