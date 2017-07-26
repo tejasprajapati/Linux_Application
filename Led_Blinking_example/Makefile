@@ -10,8 +10,8 @@ OBJECTS = $(SOURCES:.c=.o)
 
 TARGETDIR = gpio
 PREFIX = $(DESTDIR)/usr
-LIBDIR = $(PREFIX)/lib/$(TARGETDIR)/
-INCDIR = $(PREFIX)/include/$(TARGETDIR)/
+LIBDIR = $(PREFIX)/lib
+INCDIR = $(PREFIX)/include
 
 all: $(TARGET) install
 
