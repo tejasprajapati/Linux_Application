@@ -18,7 +18,7 @@ int main()
 	for(i = 0; i < 10; i++)
 		{
 			printf("Writing gpio\n");
-			if (GPIOWrite(4, i % 2))											/*	Write GPIO value*/
+			GPIOWrite(4, i % 2);											/*	Write GPIO value*/
 			usleep(500 * 1000);
 		}
 

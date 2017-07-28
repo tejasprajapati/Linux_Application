@@ -56,7 +56,7 @@ int Buzzer_Toggle(int Pin, int Delay)
 		return -1;
 	}
 
-	usleep(Delay);
+	usleep(Delay * 10);
 
 	if(GPIOWrite(Pin,!GPIORead(Pin)))														/*	Write GPIO value*/
 	{
