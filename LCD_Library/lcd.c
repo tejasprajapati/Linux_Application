@@ -122,7 +122,8 @@ void Lcd_Scroll(LCD_Gpio *Gpio_Pins, unsigned char *str)
 		Lcd_SendCommand(Gpio_Pins,0x80 | i);
 		Lcd_SendData(Gpio_Pins,str[i]);
 		Lcd_SendCommand(Gpio_Pins,0x05);
+		usleep(250000);
 		if(LOC >= 0x8F)															/*	This is the logic that we move text to left side after we reached at*/
-			Lcd_SendCommand(Gpio_Pins,0x1C);									/*	Location 0x8F which is last address on LCD in first line*/
+			Lcd_SendCommand(Gpio_Pins,0x1C);									/*	Shift the screen to left*/
 	}
 }

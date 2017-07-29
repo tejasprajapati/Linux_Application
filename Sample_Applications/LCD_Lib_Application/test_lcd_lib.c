@@ -7,6 +7,7 @@
 
 #include <lcd.h>
 #include <gpio.h>
+#include <string.h>
 
 static LCD_Gpio Gpio_Pins;
 
@@ -23,10 +24,7 @@ int main()
 
 	Lcd_String(&Gpio_Pins,"Tejas Prajapati");
 	while(1)
-	{
 		Lcd_Scroll(&Gpio_Pins, "Hello World Tejas Here");
-		usleep(200000);
-	}
 
 	return 0;
 }
