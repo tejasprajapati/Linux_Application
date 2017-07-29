@@ -68,7 +68,6 @@ int GPIODirection(int pin, int dir)
 	snprintf(path, DIRECTION_MAX, "/sys/class/gpio/gpio%d/direction", pin);
 
 	fd = open(path, O_WRONLY, S_IRWXU);
-	system(" ls -lhrt /sys/class/gpio/gpio4/direction");
 	if (fd == -1)
 	{
 		perror("error");
